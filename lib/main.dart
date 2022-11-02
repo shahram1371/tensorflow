@@ -36,6 +36,9 @@ class MyHomePageState extends State<MyHomePage> {
       inputType: 'rawAudio',
       model: 'assets/soundclassifier_with_metadata.tflite',
       label: 'assets/labels.txt',
+      outputRawScores: false,
+      numThreads: 1,
+      isAsset: true,
     );
   }
 
@@ -44,7 +47,10 @@ class MyHomePageState extends State<MyHomePage> {
     if (!_recording) {
       setState(() => _recording = true);
       result = TfliteAudio.startAudioRecognition(
-          sampleRate: 44100, bufferSize: 22016, numOfInferences: 2);
+          detectionThreshold: 0.5,
+          sampleRate: 44100,
+          bufferSize: 22016,
+          numOfInferences: 2);
 
       result.listen((event) {
         recognition = event["recognitionResult"];
